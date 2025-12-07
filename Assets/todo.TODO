@@ -1,0 +1,39 @@
+TODO: Work on the collision tiles so that there are some tiles where the entities cannot pass through
+
+[ ]: Entity Class
+    [ ]: Position
+    [ ]: Update
+    [ ]: Collision
+        [ ]: Collision Layers
+
+[ ]: Loot
+    [ ]: Money
+    [ ]: Exprience
+    [ ]: Hearts
+    [ ]: Upgrades
+
+[ ]: LivingEntity
+    [ ]: Health
+    [ ]: Movement
+    [ ]: Mana
+    [ ]: Speed
+    [ ]: Attack
+    [ ]: Defense
+    [ ]: Experience
+    [ ]: Animation
+
+[ ]: Player
+    [ ]: Inventory
+    [x]: User Input
+    [x]: Flip x A is based on Movement
+
+[ ]: Monster
+    [ ]: AI
+        [ ]: States
+            [ ]: FollowPlayer
+            [ ]: Wonder
+    [ ]: Damage
+
+[ ]: State Machines
+    [ ]: State
+    [ ]: Logic based on States
