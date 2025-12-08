@@ -12,9 +12,9 @@ public class Room
     public Vector3Int position;
     public RoomType roomType;
 #nullable enable
-    public Room? connectedRoom;
+    public Room[]? connectedRooms;
 
-    public Room(int id = 0, Vector2Int position = new Vector2Int(), RoomType roomType = RoomType.Normal, TileBase roomTile = null, Room? connectedRoom = null)
+    public Room(int id = 0, Vector2Int position = new Vector2Int(), RoomType roomType = RoomType.Normal, TileBase roomTile = null, Room[]? connectedRooms = null)
     {
         this.Id = id;
         this.position = new Vector3Int(position.x, position.y, 0);
@@ -29,17 +29,36 @@ public class Room
             this.roomTile = roomTile;
         }
 
-        this.connectedRoom = connectedRoom;
+        this.connectedRooms = connectedRooms;
     }
 
-    Room? getConnectedRoom()
+    Room[]? getConnectedRooms()
     {
-        return connectedRoom ?? null;
+        return connectedRooms ?? null;
     }
 
-    public void SetConnectedRoom(Room room)
+    public void SetConnectedRooms(Room[] rooms)
     {
-        this.connectedRoom = room;
+        this.connectedRooms = rooms;
+    }
+
+    public void AddConnectedRoom(Room room)
+    {
+        if (this.connectedRooms == null)
+        {
+            this.connectedRooms = new Room[] { room };
+        }
+        else
+        {
+            int length = this.connectedRooms.Length;
+            Room[] newConnectedRooms = new Room[length + 1];
+            for (int i = 0; i < length; i++)
+            {
+                newConnectedRooms[i] = this.connectedRooms[i];
+            }
+            newConnectedRooms[length] = room;
+            this.connectedRooms = newConnectedRooms;
+        }
     }
 
     public void SetRoomType(RoomType newType)
