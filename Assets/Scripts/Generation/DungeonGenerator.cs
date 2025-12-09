@@ -27,6 +27,8 @@ public class DungeonGenerator : MonoBehaviour
     [Header("Dungeon Settings")]
     [Range(3, 100)]
     public int dungeonLength = 5;
+    [Range(0f, 1f)]
+    public float secretRoomChance = 0.2f;
     public List<Room> rooms = new List<Room>();
 
     [Header("Debug Options")]
@@ -86,6 +88,7 @@ public class DungeonGenerator : MonoBehaviour
 
         // Create a copy of the rooms list to iterate over, so we can modify the original
         List<Room> roomsCopy = new List<Room>(rooms);
+        Random random = new Random();
 
         foreach (Room roomEntry in roomsCopy)
         {
@@ -104,7 +107,8 @@ public class DungeonGenerator : MonoBehaviour
                 if (direction == mainDirection)
                     continue;
 
-                if (new Random().Next(0, 2) == 0)
+                // Use secretRoomChance to determine if a branch should be created
+                if (random.NextDouble() <= secretRoomChance)
                 {
                     Vector2Int branchPosition = new Vector2Int(
                         roomEntry.position.x + direction.x,

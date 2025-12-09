@@ -37,6 +37,20 @@ public class Room
         return connectedRooms ?? null;
     }
 
+    public void PrintConnectedRooms()
+    {
+        if (connectedRooms == null || connectedRooms.Length == 0)
+        {
+            Debug.Log("Room ID: " + Id + " has no connected rooms.");
+            return;
+        }
+
+        foreach (Room room in connectedRooms)
+        {
+            Debug.Log("Current Room ID: " + Id + " -> " + room.Id);
+        }
+    }
+
     public void SetConnectedRooms(Room[] rooms)
     {
         this.connectedRooms = rooms;
