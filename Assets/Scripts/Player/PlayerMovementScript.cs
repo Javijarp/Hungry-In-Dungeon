@@ -3,10 +3,12 @@ public class PlayerMovementScript : MonoBehaviour
 {
 
     Vector2 direction;
-    public float speed = 5f;
+    [Header("Assignables")]
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Animator anim;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [Header("Settings")]
+    public float speed = 5f;
 
     void Awake()
     {

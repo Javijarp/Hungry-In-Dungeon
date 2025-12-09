@@ -51,7 +51,7 @@ public class Pot : TileEntity, IPickUpAble
         if (TryGetComponent<Rigidbody2D>(out Rigidbody2D rbCheck))
         {
             rbCheck.linearVelocity = Vector2.zero;
-            rbCheck.isKinematic = true; // Disable physics while held
+            rbCheck.bodyType = RigidbodyType2D.Kinematic; // Disable physics while carried
         }
     }
 
@@ -65,32 +65,50 @@ public class Pot : TileEntity, IPickUpAble
 
         if (TryGetComponent<Rigidbody2D>(out Rigidbody2D rbCheck))
         {
-            rbCheck.isKinematic = false; // Re-enable physics
+            rbCheck.bodyType = RigidbodyType2D.Kinematic; // Re-enable physics for throw
         }
     }
 
     public void onThrow()
     {
-        // Get player stats
-        PlayerStats playerStats = currentPicker.GetComponent<PlayerStats>();
-        float playerStrength = playerStats != null ? playerStats.GetStrength() : 1f;
+        if (currentPicker == null)
+        {
+            Debug.LogError("Cannot throw pot - currentPicker is null!");
+            return;
+        }
 
-        // Calculate throw force based on player strength and pot weight
-        float adjustedThrowForce = throwForce * (playerStrength / weight);
+        // Get player stats with null check
+        PlayerStats playerStats = currentPicker.GetComponent<PlayerStats>();
+        if (playerStats == null)
+        {
+            Debug.LogError("PlayerStats not found on picker!");
+            return;
+        }
+
+        int playerStrength = playerStats.GetStrength();
+
+        // Calculate throw force based on player strength
+        float adjustedThrowForce = throwForce * (playerStrength);
 
         // Get player's facing direction
-        Vector2 throwDirection = currentPicker.GetComponent<SpriteRenderer>().flipX ? Vector2.right : Vector2.left;
+        SpriteRenderer spriteRenderer = currentPicker.GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer not found on picker!");
+            return;
+        }
+
+        Vector2 throwDirection = spriteRenderer.flipX ? Vector2.right : Vector2.left;
 
         if (TryGetComponent<Rigidbody2D>(out Rigidbody2D rbCheck))
         {
-            rbCheck.isKinematic = false; // Re-enable physics for throw
+            rbCheck.bodyType = RigidbodyType2D.Dynamic;
+            rbCheck.linearVelocity = throwDirection * adjustedThrowForce;
         }
 
-        // Apply velocity to the pot
-        rb.linearVelocity = throwDirection * adjustedThrowForce * 20f;
         isThrown = true;
 
-        // Unparent and drop the pot
+        // Unparent and drop the pot AFTER all references are used
         transform.SetParent(null);
         currentPicker = null;
         PickedUp = false;

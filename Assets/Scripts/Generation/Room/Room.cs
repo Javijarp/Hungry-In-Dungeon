@@ -1,6 +1,3 @@
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -14,7 +11,7 @@ public class Room
 #nullable enable
     public Room[]? connectedRooms;
 
-    public Room(int id = 0, Vector2Int position = new Vector2Int(), RoomType roomType = RoomType.Normal, TileBase roomTile = null, Room[]? connectedRooms = null)
+    public Room(int id = 0, Vector2Int position = new Vector2Int(), RoomType roomType = RoomType.Normal, TileBase? roomTile = null, Room[]? connectedRooms = null)
     {
         this.Id = id;
         this.position = new Vector3Int(position.x, position.y, 0);
